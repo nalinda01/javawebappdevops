@@ -18,7 +18,7 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <name>javawebapp</name>
-    <description>Simple Java Web Application</description>
+    <description>Simple Java Web Application 2</description>
 
     <properties>
         <java.version>17</java.version>
