@@ -1,520 +1,406 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Java Web Application | Nalinda</title>
-
-    <style>
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-
-            font-family: Arial, Helvetica, sans-serif;
-
-            min-height: 100vh;
-
-            display: flex;
-
-            justify-content: center;
-
-            align-items: center;
-
-            background:
-                radial-gradient(circle at top left, #2563eb 0%, transparent 35%),
-                radial-gradient(circle at bottom right, #7c3aed 0%, transparent 35%),
-                #0f172a;
-
-            color: white;
-
-            overflow: hidden;
-        }
-
-
-        /* Background circles */
-
-        body::before {
-
-            content: "";
-
-            position: absolute;
-
-            width: 300px;
-
-            height: 300px;
-
-            background: rgba(59, 130, 246, 0.2);
-
-            border-radius: 50%;
-
-            top: -100px;
-
-            right: -80px;
-
-            filter: blur(20px);
-        }
-
-
-        body::after {
-
-            content: "";
-
-            position: absolute;
-
-            width: 250px;
-
-            height: 250px;
-
-            background: rgba(139, 92, 246, 0.2);
-
-            border-radius: 50%;
-
-            bottom: -80px;
-
-            left: -70px;
-
-            filter: blur(20px);
-        }
-
-
-        /* Main container */
-
-        .container {
-
-            position: relative;
-
-            z-index: 2;
-
-            width: 90%;
-
-            max-width: 550px;
-
-            padding: 45px 35px;
-
-            text-align: center;
-
-            border-radius: 25px;
-
-            background: rgba(255, 255, 255, 0.08);
-
-            border: 1px solid rgba(255, 255, 255, 0.15);
-
-            backdrop-filter: blur(15px);
-
-            -webkit-backdrop-filter: blur(15px);
-
-            box-shadow:
-                0 25px 50px rgba(0, 0, 0, 0.4);
-
-            animation: cardAppear 0.8s ease;
-        }
-
-
-        /* Status */
-
-        .status {
-
-            display: inline-flex;
-
-            align-items: center;
-
-            gap: 8px;
-
-            padding: 8px 15px;
-
-            border-radius: 50px;
-
-            background: rgba(34, 197, 94, 0.15);
-
-            border: 1px solid rgba(34, 197, 94, 0.3);
-
-            color: #86efac;
-
-            font-size: 14px;
-
-            margin-bottom: 25px;
-        }
-
-
-        .status-dot {
-
-            width: 9px;
-
-            height: 9px;
-
-            background: #22c55e;
-
-            border-radius: 50%;
-
-            box-shadow: 0 0 10px #22c55e;
-
-            animation: pulse 1.5s infinite;
-        }
-
-
-        /* Heading */
-
-        h1 {
-
-            font-size: 42px;
-
-            margin-bottom: 15px;
-
-            background: linear-gradient(
-                90deg,
-                #60a5fa,
-                #a78bfa
-            );
-
-            -webkit-background-clip: text;
-
-            -webkit-text-fill-color: transparent;
-        }
-
-
-        .subtitle {
-
-            color: #cbd5e1;
-
-            font-size: 17px;
-
-            line-height: 1.6;
-
-            margin-bottom: 30px;
-        }
-
-
-        /* Info cards */
-
-        .info-container {
-
-            display: grid;
-
-            grid-template-columns: 1fr 1fr;
-
-            gap: 12px;
-
-            margin-bottom: 30px;
-        }
-
-
-        .info-card {
-
-            padding: 15px;
-
-            border-radius: 15px;
-
-            background: rgba(255, 255, 255, 0.06);
-
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-
-        .info-card span {
-
-            display: block;
-
-            color: #94a3b8;
-
-            font-size: 12px;
-
-            margin-bottom: 5px;
-        }
-
-
-        .info-card strong {
-
-            font-size: 15px;
-
-            color: #f8fafc;
-        }
-
-
-        /* Button */
-
-        button {
-
-            border: none;
-
-            padding: 15px 35px;
-
-            font-size: 17px;
-
-            font-weight: bold;
-
-            color: white;
-
-            border-radius: 12px;
-
-            cursor: pointer;
-
-            background: linear-gradient(
-                135deg,
-                #2563eb,
-                #7c3aed
-            );
-
-            box-shadow:
-                0 10px 25px rgba(37, 99, 235, 0.35);
-
-            transition:
-                transform 0.2s ease,
-                box-shadow 0.2s ease;
-        }
-
-
-        button:hover {
-
-            transform: translateY(-3px);
-
-            box-shadow:
-                0 15px 35px rgba(124, 58, 237, 0.5);
-        }
-
-
-        button:active {
-
-            transform: translateY(0);
-        }
-
-
-        /* Message */
-
-        #message {
-
-            min-height: 30px;
-
-            margin-top: 25px;
-
-            font-size: 17px;
-
-            color: #82efac;
-
-            opacity: 0;
-
-            transform: translateY(10px);
-
-            transition: all 0.4s ease;
-        }
-
-
-        #message.show {
-
-            opacity: 1;
-
-            transform: translateY(0);
-        }
-
-
-        /* Footer */
-
-        .footer {
-
-            margin-top: 30px;
-
-            color: #64844b;
-
-            font-size: 13px;
-        }
-
-
-        /* Animations */
-
-        @keyframes cardAppear {
-
-            from {
-
-                opacity: 0;
-
-                transform: translateY(30px);
-            }
-
-            to {
-
-                opacity: 1;
-
-                transform: translateY(0);
-            }
-        }
-
-
-        @keyframes pulse {
-
-            0% {
-
-                transform: scale(1);
-
-                opacity: 1;
-            }
-
-            50% {
-
-                transform: scale(1.4);
-
-                opacity: 0.6;
-            }
-
-            100% {
-
-                transform: scale(1);
-
-                opacity: 1;
-            }
-        }
-
-
-        /* Mobile */
-
-        @media (max-width: 500px) {
-
-            .container {
-
-                padding: 35px 20px;
-            }
-
-            h1 {
-
-                font-size: 32px;
-            }
-
-            .subtitle {
-
-                font-size: 15px;
-            }
-
-            .info-container {
-
-                grid-template-columns: 1fr;
-            }
-
-        }
-
-    </style>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Web Application | Nalinda</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :root{
+    --bg:        #0c1210;
+    --panel:     rgba(255,255,255,0.055);
+    --line:      rgba(255,255,255,0.10);
+    --text:      #eef3f0;
+    --text-dim:  #9db0a8;
+    --amber:     #e0982a;
+    --amber-br:  #f6b955;
+    --teal:      #2fb8a6;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+    --font-sans: 'Inter', Arial, Helvetica, sans-serif;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    min-height: 100vh;
+    background: var(--bg);
+    color: white;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    width: 340px;
+    height: 340px;
+    background: rgba(224, 152, 42, 0.16);
+    border-radius: 50%;
+    top: -110px;
+    right: -90px;
+    filter: blur(30px);
+    pointer-events: none;
+  }
+
+  body::after {
+    content: "";
+    position: fixed;
+    width: 280px;
+    height: 280px;
+    background: rgba(47, 184, 166, 0.14);
+    border-radius: 50%;
+    bottom: -90px;
+    left: -80px;
+    filter: blur(30px);
+    pointer-events: none;
+  }
+
+  /* ---------- HEADER / NAV ---------- */
+
+  header{
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 62px;
+    padding: 0 28px;
+    background: rgba(12, 18, 16, 0.72);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+    animation: headerDrop .6s cubic-bezier(.2,.8,.2,1) both;
+  }
+
+  @keyframes headerDrop{
+    from{ transform: translateY(-100%); opacity: 0; }
+    to{ transform: translateY(0); opacity: 1; }
+  }
+
+  .brand{
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: .01em;
+  }
+
+  .cup{ position: relative; width: 18px; height: 15px; }
+  .cup svg{ display:block; width:100%; height:100%; }
+
+  .steam{
+    position: absolute;
+    bottom: 100%;
+    width: 2px;
+    height: 9px;
+    border-radius: 2px;
+    background: linear-gradient(to top, var(--amber-br), transparent);
+    opacity: .85;
+    animation: rise 2.4s ease-in-out infinite;
+  }
+  .steam:nth-child(1){ left: 3px; animation-delay: 0s; }
+  .steam:nth-child(2){ left: 8px; animation-delay: .5s; }
+  .steam:nth-child(3){ left: 13px; animation-delay: 1s; }
+
+  @keyframes rise{
+    0%{ transform: translateY(0) scaleY(.6); opacity: 0; }
+    25%{ opacity: .9; }
+    100%{ transform: translateY(-13px) scaleY(1.1); opacity: 0; }
+  }
+
+  nav{ display: flex; align-items: center; gap: 4px; }
+
+  nav a{
+    position: relative;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-dim);
+    padding: 7px 13px;
+    border-radius: 7px;
+    text-decoration: none;
+    transition: color .18s ease, background .18s ease;
+  }
+
+  nav a:hover{ color: var(--text); background: rgba(255,255,255,0.06); }
+  nav a.active{ color: var(--text); }
+  nav a.active::after{
+    content: "";
+    position: absolute;
+    left: 13px; right: 13px; bottom: 2px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--amber);
+  }
+
+  .header-right{ display: flex; align-items: center; gap: 12px; }
+
+  .env-tag{
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    border: 1px solid var(--line);
+    padding: 5px 10px;
+    border-radius: 6px;
+    letter-spacing: .03em;
+  }
+
+  @media (max-width: 640px){
+    header{ padding: 0 16px; }
+    nav{ display: none; }
+  }
+
+  /* ---------- ORIGINAL CARD (colors updated) ---------- */
+
+  .page{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 62px);
+    padding: 40px 16px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .container {
+    width: 90%;
+    max-width: 550px;
+    padding: 45px 35px;
+    text-align: center;
+    border-radius: 25px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+    animation: cardAppear 0.8s ease .1s both;
+  }
+
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 15px;
+    border-radius: 50px;
+    background: rgba(47, 184, 166, 0.14);
+    border: 1px solid rgba(47, 184, 166, 0.32);
+    color: #7fe0d1;
+    font-size: 14px;
+    margin-bottom: 25px;
+    font-family: var(--font-mono);
+  }
+
+  .status-dot {
+    width: 9px;
+    height: 9px;
+    background: var(--teal);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--teal);
+    animation: pulse 1.5s infinite;
+  }
+
+  h1 {
+    font-family: var(--font-mono);
+    font-size: 40px;
+    margin-bottom: 15px;
+    background: linear-gradient(90deg, var(--amber-br), var(--teal));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .subtitle {
+    color: var(--text-dim);
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+  }
+
+  .info-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 30px;
+  }
+
+  .info-card {
+    padding: 15px;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--line);
+  }
+
+  .info-card span {
+    display: block;
+    color: var(--text-dim);
+    font-size: 12px;
+    margin-bottom: 5px;
+    font-family: var(--font-mono);
+  }
+
+  .info-card strong {
+    font-size: 15px;
+    color: var(--text);
+  }
+
+  button {
+    border: none;
+    padding: 15px 35px;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    color: #0c1210;
+    border-radius: 12px;
+    cursor: pointer;
+    background: linear-gradient(135deg, var(--amber-br), var(--amber));
+    box-shadow: 0 10px 25px rgba(224, 152, 42, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(47, 184, 166, 0.35);
+  }
+
+  button:active { transform: translateY(0); }
+
+  #message {
+    min-height: 30px;
+    margin-top: 25px;
+    font-size: 16px;
+    font-family: var(--font-mono);
+    color: #7fe0d1;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.4s ease;
+  }
+
+  #message.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .footer {
+    margin-top: 30px;
+    color: var(--text-dim);
+    opacity: .7;
+    font-size: 13px;
+    font-family: var(--font-mono);
+  }
+
+  @keyframes cardAppear {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.4); opacity: 0.6; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  @media (max-width: 500px) {
+    .container { padding: 35px 20px; }
+    h1 { font-size: 30px; }
+    .subtitle { font-size: 15px; }
+    .info-container { grid-template-columns: 1fr; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  }
+</style>
 </head>
-
 
 <body>
 
-
-    <div class="container">
-
-
-        <div class="status">
-
-            <span class="status-dot"></span>
-
-            Application Running
-
-        </div>
-
-
-        <h1>Java Web Application</h1>
-
-
-        <p class="subtitle">
-
-            Welcome to my Java web application.
-
-            This page demonstrates a simple interactive
-
-            Java-based web application.
-
-        </p>
-
-
-        <div class="info-container">
-
-            <div class="info-card">
-
-                <span>Technology</span>
-
-                <strong>Java</strong>
-
-            </div>
-
-
-            <div class="info-card">
-
-                <span>Application</span>
-
-                <strong>Web App</strong>
-
-            </div>
-
-
-            <div class="info-card">
-
-                <span>Environment</span>
-
-                <strong>Development</strong>
-
-            </div>
-
-
-            <div class="info-card">
-
-                <span>Status</span>
-
-                <strong>Online</strong>
-
-            </div>
-
-        </div>
-
-
-        <button onclick="showMessage()">
-
-            🚀 click me
-
-        </button>
-
-
-        <p id="message"></p>
-
-
-        <div class="footer">
-
-            Java Web Application • DevOps Demo
-
-        </div>
-
-
+  <header>
+    <div class="brand">
+      <div class="cup">
+        <span class="steam"></span><span class="steam"></span><span class="steam"></span>
+        <svg viewBox="0 0 24 20" fill="none">
+          <path d="M2 6h16v6a6 6 0 0 1-6 6H8a6 6 0 0 1-6-6V6z" fill="#e0982a"/>
+          <path d="M18 8h1.5a2.5 2.5 0 0 1 0 5H18" stroke="#e0982a" stroke-width="1.6"/>
+        </svg>
+      </div>
+      Nalinda<span style="color: var(--text-dim); font-weight: 500;">.dev</span>
     </div>
 
+    <nav>
+      <a href="#" class="active">Overview</a>
+      <a href="#">Runtime</a>
+      <a href="#">Logs</a>
+      <a href="#">Docs</a>
+    </nav>
 
-    <script>
+    <div class="header-right">
+      <span class="env-tag">development</span>
+    </div>
+  </header>
 
-        function showMessage() {
+  <div class="page">
+    <div class="container">
 
-            const message =
-                document.getElementById("message");
+      <div class="status">
+        <span class="status-dot"></span>
+        Application Running
+      </div>
 
-            message.innerText =
-                "✓ Hello! Button clicked successfully.";
+      <h1>Java Web Application</h1>
 
-            message.classList.remove("show");
+      <p class="subtitle">
+        Welcome to my Java web application.
+        This page demonstrates a simple interactive
+        Java-based web application.
+      </p>
 
-            setTimeout(() => {
+      <div class="info-container">
+        <div class="info-card">
+          <span>Technology</span>
+          <strong>Java</strong>
+        </div>
+        <div class="info-card">
+          <span>Application</span>
+          <strong>Web App</strong>
+        </div>
+        <div class="info-card">
+          <span>Environment</span>
+          <strong>Development</strong>
+        </div>
+        <div class="info-card">
+          <span>Status</span>
+          <strong>Online</strong>
+        </div>
+      </div>
 
-                message.classList.add("show");
+      <button onclick="showMessage()">🚀 click me</button>
 
-            }, 50);
+      <p id="message"></p>
 
-        }
+      <div class="footer">
+        Java Web Application • DevOps Demo
+      </div>
 
-    </script>
+    </div>
+  </div>
 
+  <script>
+    function showMessage() {
+      const message = document.getElementById("message");
+      message.innerText = "✓ Hello! Button clicked successfully.";
+      message.classList.remove("show");
+      setTimeout(() => {
+        message.classList.add("show");
+      }, 50);
+    }
+  </script>
 
 </body>
-
 </html>
